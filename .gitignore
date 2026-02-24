@@ -1,0 +1,4 @@
+.env
+certbot/conf/
+rustfs/data/
+nginx/conf.d/default.conf
