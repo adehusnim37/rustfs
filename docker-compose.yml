@@ -12,6 +12,7 @@ services:
       - RUSTFS_SECRET_KEY=${RUSTFS_SECRET_KEY}
     volumes:
       - ./rustfs/data:/data
+      - ./rustfs/logs:/logs
     expose:
       - "9000"
       - "9001"
