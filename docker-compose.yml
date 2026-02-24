@@ -13,34 +13,12 @@ services:
     volumes:
       - ./rustfs/data:/data
       - ./rustfs/logs:/logs
-    expose:
-      - "9000"
-      - "9001"
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
     healthcheck:
       test: ["CMD", "sh", "-c", "wget -qO- http://127.0.0.1:9000/health >/dev/null"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 40s
-
-  nginx:
-    image: nginx:1.27-alpine
-    container_name: rustfs-nginx
-    restart: unless-stopped
-    depends_on:
-      rustfs:
-        condition: service_healthy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./certbot/www:/var/www/certbot:ro
-      - ./certbot/conf:/etc/letsencrypt:ro
-
-  certbot:
-    image: certbot/certbot:latest
-    container_name: rustfs-certbot
-    volumes:
-      - ./certbot/www:/var/www/certbot
-      - ./certbot/conf:/etc/letsencrypt
